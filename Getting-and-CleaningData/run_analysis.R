@@ -70,7 +70,7 @@ Average = t(Average)
 row.names(Average) <- c()
 
 ## Output result
-write.table(Average, file = "Average.txt", sep = ",", row.names = FALSE, col.names = TRUE)
+write.table(Average, file = "Average.txt", sep = "\t", row.names = FALSE, col.names = TRUE)
 write.table(Average, file = "Average.csv", sep = ",", row.names = FALSE, col.names = TRUE)
 View(Average)
 Average
