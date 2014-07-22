@@ -12,8 +12,10 @@ How to run this project
   *  You will also get a Activities.txt file under document "Getting-and-CleaningData"
   
   
-  
-  
+notes
+======
+ - I suggest you to open the Activities.txt in excel set the separator to "," or you will not see it right
+ - or you can open the Activities.csv file in excel 
 
 
 CodeBook
