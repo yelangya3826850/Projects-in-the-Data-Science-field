@@ -14,7 +14,7 @@ How to run this project
   
 notes
 ======
- - I suggest you to open the Activities.txt in excel set the separator to "," or you will not see it right
+ - I suggest you to open the Activities.txt in excel set the separated by  "\t" or you will not see it right
  - or you can open the Activities.csv file in excel 
 
 
