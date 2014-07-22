@@ -18,22 +18,19 @@ CodeBook:
 
   Features include 79 columns from columns 3 to columns 81, and they are:
   
-  tBodyAcc.mean...X	
-  
-  tBodyAcc.mean...Y	
-  
-  tBodyAcc.mean...Z	
-  
-  tGravityAcc.mean...X	
-  tGravityAcc.mean...Y	
-  tGravityAcc.mean...Z	
-  tBodyAccJerk.mean...X	
-  tBodyAccJerk.mean...Y	
-  tBodyAccJerk.mean...Z	
-  tBodyGyro.mean...X	
+  tBodyAcc.mean...X
+  tBodyAcc.mean...Y
+  tBodyAcc.mean...Z
+  tGravityAcc.mean...X
+  tGravityAcc.mean...Y
+  tGravityAcc.mean...Z
+  tBodyAccJerk.mean...X
+  tBodyAccJerk.mean...Y
+  tBodyAccJerk.mean...Z
+  tBodyGyro.mean...X
   tBodyGyro.mean...Y
-  tBodyGyro.mean...Z	
-  tBodyGyroJerk.mean...X	
+  tBodyGyro.mean...Z
+  tBodyGyroJerk.mean...X
   tBodyGyroJerk.mean...Y
   tBodyGyroJerk.mean...Z
   tBodyAccMag.mean..
