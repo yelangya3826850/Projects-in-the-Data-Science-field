@@ -1,0 +1,214 @@
+---
+title: "Machine-Learning-Assignment"
+author: "MengNan"
+date: "Thursday, July 24, 2014"
+output: html_document
+---
+
+This HTML Page is mainly about the project for Machine Learning provided by JOHNS HOPKINS (https://www.coursera.org/course/predmachlearn) 
+
+1.Backgroud
+=========
+Using devices such as Jawbone Up, Nike FuelBand, and Fitbit it is now possible to collect a large amount of data about personal activity relatively inexpensively. These type of devices are part of the quantified self movement – a group of enthusiasts who take measurements about themselves regularly to improve their health, to find patterns in their behavior, or because they are tech geeks. One thing that people regularly do is quantify how much of a particular activity they do, but they rarely quantify how well they do it. In this project, your goal will be to use data from accelerometers on the belt, forearm, arm, and dumbell of 6 participants. They were asked to perform barbell lifts correctly and incorrectly in 5 different ways. More information is available from the website here: http://groupware.les.inf.puc-rio.br/har (see the section on the Weight Lifting Exercise Dataset). 
+
+2.Main Work
+=========
+
+ * Getting and Cleaning Data
+ 
+Recalling the classes, we know that the most important thing is to come up with questions. Now, the questuions we need to solve has been stated above. So, in the beginning, the first thing we have to do is to get data. After downloading the data sets, you may find that most of the data is missing, so getting and cleaning the data sets is necessary. I use function "FindBlank", and clean the data sets to get "TrainData" and "TestData" as follows(just show part of the data):
+
+```{r, echo=FALSE}
+library(caret)
+## Reading Data
+TrainData <- read.table("C:/Users/mn/Documents/MachineLearning/pml-training.csv", sep = ",", header = T)
+TestData  <- read.table("C:/Users/mn/Documents/MachineLearning/pml-testing.csv", sep = ",", header = T)
+FindBlank <- function(x)
+{
+    index1 <- any(is.na(x))
+    index2 <- any(which(x==""))
+    any(index1, index2)
+}
+
+TrainData <- TrainData[,!apply(TrainData, 2, FindBlank)]
+TestData  <- TestData [,!apply(TestData,  2, FindBlank)]
+```
+```{r}
+summary(TrainData)[,7:12]
+head(TrainData,4)[,7:12]
+head(TestData,4)[,7:12]
+```
+
+```{r, echo=FALSE}
+Pca_trans <- function(Data, percent)
+{
+    prComp <- prcomp(Data ,center = FALSE, scale. = FALSE,)
+    index <- 1: (sum(!summary(prComp)$importance[3,] > percent) + 1)
+    PCAData <- prComp$x[,index]
+    PCAData 
+}
+# temp <- data.frame(t(std_TrainData),t(std_TestData))
+# temp <- t(temp)
+
+# PCAtrainData  <- Pca_trans(temp, 0.99)[1:dim(TrainData)[1],]
+# PCAtestData   <- Pca_trans(temp, 0.99)[-(1:dim(TrainData)[1]),]
+```
+```{r, echo=FALSE}
+PCAtrainData  <- read.table("C:/Users/mn/Documents/MachineLearning/PCAtrainData.csv", sep = ",", header = T)
+PCAtestData  <- read.table("C:/Users/mn/Documents/MachineLearning/PCAtestData.csv", sep = ",", header = T)
+
+```
+ * PCA & Slicing Data
+
+About 60 features without blank or missing value are chosen from the original data, but 60 is also a large feature set. I want less and typical features which show relatively obvious difference between each two types. So I preprocessing the data by PCA(the data have already been scaled and centerred before PCA). After this step I get a data sets of 37 "features", named from PC1 to PC37(The reason why I choose first 37 features will be stated at the Cross Validation Part).
+
+I used the training data(PCAtrainData) to built my model. Because of some good results of random forest model have been showed before, I Would like to use this model again. Then, slicing the training data into a subset of one smaller training data set(training) and a subset of testing data(testing) which was 1/4 size of the training data. But in fact, my training data(PCAtrainData) was much larger to train a classification model(training the whole large data set need too much time!!!). So I first randomly picked 20 percent of the whole PCAtrainData to make a new smaller training data set(PPCAtrainData), and then sliced 3/4 of PPCAtrainData to train the model and 1/4 of the PPCAtrainData to test whether my model is good enough
+```{r}
+Pick <- createDataPartition(y = PCAtrainData$Class, p = 0.2, list = FALSE)
+PPCAtrainData <- PCAtrainData[Pick,]
+inTrain <- createDataPartition(y = PPCAtrainData$Class, p = 0.75, list = FALSE)
+training <- PPCAtrainData[inTrain,]
+testing <- PPCAtrainData[-inTrain,]
+```
+
+ * Cross Validation & Error Anlysis
+
+To analysis the sample error, this page firstly show the in sample error and out of sample error of objects then we will talk about the feature error.
+First of all, using the same object twice to built the model1 and model2, and compute the in sample error of the same objects, I get the error rate:
+
+```{r, echo=FALSE}
+## sample error
+trControl <- trainControl(method = "LOOCV",p = 0.75, horizon = 1)
+set.seed(4235)
+modelFit1 <- train(Class ~ ., data = training[c(1:20,850:870,1600:1620,2380:2400,2420:2440),], method = "rf", prox = TRUE, trControl = trControl)
+pred1 <- predict(modelFit1,testing[c(1:5,300:305,500:505,690:695,900:905),])
+predRight1 <- pred1 == testing[c(1:5,300:305,500:505,690:695,900:905),]$Class
+Accuracy1 <- sum(predRight1)/length(predRight1)
+# Accuracy1
+# data.frame(pred1,test1 = testing[c(1:5,300:305,500:505,690:695,900:905),]$Class,predRight1 )
+```
+```{r, echo=FALSE}
+set.seed(5235)
+modelFit2 <- train(Class ~ ., data = training[c(1:20,850:870,1600:1620,2380:2400,2420:2440),], method = "rf", prox = TRUE, trControl = trControl)
+pred2 <- predict(modelFit2,testing[c(1:5,300:305,500:505,690:695,900:905),])
+predRight2 <- pred2 == testing[c(1:5,300:305,500:505,690:695,900:905),]$Class
+Accuracy2 <- sum(predRight2)/length(predRight2)
+# Accuracy2
+# data.frame(pred2,test2 = testing[c(1:5,300:305,500:505,690:695,900:905),]$Class,predRight2 )
+
+error_internal <- Accuracy1 - Accuracy2
+error_internal
+```
+
+Then, use different objects(but the number of objects is same) to built the model3 and compute the out of sample error. The error rate is:
+
+```{r, echo=FALSE}
+set.seed(6235)
+modelFit3 <- train(Class ~ ., data = training[c(20:40,870:890,1620:1640,2360:2380,2440:2460),], method = "rf", prox = TRUE, trControl = trControl)
+pred3 <- predict(modelFit3,testing[c(5:10,305:310,505:510,695:700,905:910),])
+predRight3 <- pred3 == testing[c(5:10,305:310,505:510,695:700,905:910),]$Class
+Accuracy3 <- sum(predRight3)/length(predRight3)
+# Accuracy3
+# data.frame(pred3,test3 = testing[c(5:10,305:310,505:510,695:700,905:910),]$Class,predRight3 )
+error_external <- Accuracy1 - Accuracy3
+error_external
+```
+
+We can see that both in sample error and out of sample error is small. Remember we ues the PCA and preprocess the features. So, the differences between objects with the same features is not so obvious. But the differences between features is something need to consider...
+
+Like what we did just now, keeping the objects unchange, but using the same and different features to calculate the in sample and out of sample error of features, I get:
+
+```{r, echo=FALSE}
+## Feature sample error
+set.seed(7235)
+modelFit4 <- train(Class ~ ., data = training[c(1:20,850:870,1600:1620,2380:2400,2420:2440),c(1:8,38)], method = "rf", prox = TRUE, trControl = trControl)
+pred4 <- predict(modelFit4,testing[c(1:5,300:305,500:505,690:695,900:905),c(1:8,38)])
+predRight4 <- pred4 == testing[c(1:5,300:305,500:505,690:695,900:905),c(1:8,38)]$Class
+Accuracy4 <- sum(predRight4)/length(predRight4)
+# Accuracy4
+# data.frame(pred4,test4 = testing[c(1:5,300:305,500:505,690:695,900:905),c(1:8,38)]$Class,predRight4 )
+
+set.seed(8235)
+modelFit5 <- train(Class ~ ., data = training[c(1:20,850:870,1600:1620,2380:2400,2420:2440),c(1:8,38)], method = "rf", prox = TRUE, trControl = trControl)
+pred5 <- predict(modelFit5,testing[c(1:5,300:305,500:505,690:695,900:905),c(1:8,38)])
+predRight5 <- pred5 == testing[c(1:5,300:305,500:505,690:695,900:905),c(1:8,38)]$Class
+Accuracy5 <- sum(predRight5)/length(predRight5)
+# Accuracy5
+# data.frame(pred5,test5 = testing[c(1:5,300:305,500:505,690:695,900:905),c(1:8,38)]$Class,predRight5 )
+
+Ferror_internal <- Accuracy4 - Accuracy5
+Ferror_internal
+
+
+set.seed(9235)
+modelFit6 <- train(Class ~ ., data = training[c(1:20,850:870,1600:1620,2380:2400,2420:2440),c(9:16,38)], method = "rf", prox = TRUE, trControl = trControl)
+pred6 <- predict(modelFit6,testing[c(1:5,300:305,500:505,690:695,900:905),c(9:16,38)])
+predRight6 <- pred3 == testing[c(1:5,300:305,500:505,690:695,900:905),c(9:16,38)]$Class
+Accuracy6 <- sum(predRight6)/length(predRight6)
+# Accuracy6
+# data.frame(pred6,test6 = testing[c(1:5,300:305,500:505,690:695,900:905),c(9:16,38)]$Class,predRight6)
+
+Ferror_external <- Accuracy6 - Accuracy4
+Ferror_external
+
+```
+
+The results show that in sample error can be ignored but the out of sample error is obvious, which means that the the features with larger distinction between different classes of objects should be included into model. This time, I choose first 37 features, for they can intercept 99% of the difference between objects of different classes.
+
+ * Training Model
+
+Now, let's train the model, you can see some information of modelFit:
+The "leave one out" method is used to get some fitted parameter:
+```{r}
+trControl <- trainControl(method = "LOOCV",p = 0.75, horizon = 1)
+```
+
+```{r}
+set.seed(1235)
+modelFit <- train(Class ~ ., data = training, method = "rf", prox = TRUE)
+modelFit
+```
+Gettign a single tree:
+```{r, echo=FALSE}
+## Gettign a single tree
+head(getTree(modelFit$finalModel, k =2), 20)
+```
+For a obverious look, I draw the class centering figure(I just use two most distict features PC1 and PC2):
+```{r, echo=FALSE}
+trainP <- classCenter(training[,1:37],training$Class, modelFit$finalModel$prox)
+trainP <- as.data.frame(trainP);
+trainP$Class <- rownames(trainP)
+p <- qplot(PC1,PC2,col = Class, data= training)
+p + geom_point(aes(x = PC1, y = PC2,col = Class),size = 5, shape = 4, data = trainP)
+```
+The Accuracy of my model:
+```{r,echo=FALSE}
+pred <- predict(modelFit,testing); testing$predRight <- pred==testing$Class
+table(pred, testing$Class)
+
+Accuracy <- sum(testing$predRight)/length(testing$predRight)
+data.frame(Accuracy = Accuracy)
+```
+Finally, test the given 20 problems by fitted model obtained just now and get a result answer:
+```{r}
+answers <- predict(modelFit,PCAtestData);
+answers
+```
+
+Note that, the real answer is "B","A","B","A","A","E","D","B","A","A","B","C","B","A","E","E","A","B","B","B"
+(I have try many times to get it! ^_^). So you can see how good my prediction is!
+
+Appendix
+========
+
+ * Data Source
+
+The training data for this project are available here: 
+
+https://d396qusza40orc.cloudfront.net/predmachlearn/pml-training.csv
+
+The test data are available here: 
+
+https://d396qusza40orc.cloudfront.net/predmachlearn/pml-testing.csv
+
+The data for this project come from this source: http://groupware.les.inf.puc-rio.br/har. If you use the document you create for this class for any purpose please cite them as they have been very generous in allowing their data to be used for this kind of assignment. 
