@@ -9,7 +9,7 @@ This is an assignment for Regression Models Class. This work is for Motor Trend,
   * "Is an automatic or manual transmission better for MPG"?
   * "Quantify the MPG difference between automatic and manual transmissions"
 
-To answer these two questions, this paper first extract "useful" features(features may have influence on mpg) from the dataset mtcars. By calculating the empirical covariance between mpg and other features, and order the result, empirical covariances of all features which are larger than 0.68 have been picked. They are: cyl,disp,hp,drat and wt. Then, model mpg with all the other features respectively by linear model and get five residuals. I order the residuals to decide which has the best linear relation with mpg. Next, choose one of the remaining features(features have the least residuals) and include it in the linear model. If the new model have less residuals and standard errors, then accept it, otherwise drop it and try another one. Finally, try to find high dimensional relationship among features. I eventually choose the linear model: lm(mpg ~ wt + cyl + hp + disp + hp*disp) to predict the mpg of both automatic cars and manual cars and find that: manual car have a higher average level of mpg but also a larger variance(or standard deviation). So under my preliminary analysis, I provide some suggestions:
+To answer these two questions, this paper first extract "useful" features(features may have influence on mpg) from the dataset mtcars. By calculating the empirical covariance between mpg and other features, and order the result, empirical covariances of all features which are larger than 0.68 have been picked. They are: cyl,disp,hp,drat and wt. Then, model mpg with all the other features respectively by linear model and get five residuals. I order the residuals to decide which has the best linear relation with mpg. Next, choose one of the remaining features(features have the least residuals) and include it in the linear model. If the new model have less residuals and standard errors, then accept it, otherwise drop it and try another one. Finally, try to find high dimensional relationship among features. I eventually choose the linear model lm(mpg ~ wt + cyl + hp + disp + hp*disp) to predict the mpg of both automatic cars and manual cars and find that: manual car have a higher average level of mpg but also a larger variance(or standard deviation). So under my preliminary analysis, I provide some suggestions:
 
  * If you are a manager or a decision maker of a car factory, you should probably choose manual transmission of cars, because you will get more profits(for manual cars higher   empirical mean).
  * If you are a home keeper or a housewife, you should chooes to buy an automatic car, because it can have higher chance helping you save money(for automatic cars have less variance)
@@ -156,7 +156,7 @@ sumresid_result <- c(sumresid15,sumresid25,sumresid35,sumresid45,sumresid125,sum
 sd_result <- c(sd.15,sd.25,sd.35,sd.45,sd.125,sd.135, sd.1235, sd.12345, sd.13235)
 t(data.frame(sumresid_result, sd_result))
 ```
-As the last result show, this is the best model we have made so far from now. And also let's do some confidence analysis. The confidence interval of all the feature in the Table2.
+As the last result show, this is the best model we have made so far from now. And also let's do some confidence analysis. The confidence interval of all the feature in the Table1.
 ```{r, echo=FALSE}
 sumcoef <- summary(fit13235)$coefficients
 
@@ -228,55 +228,50 @@ panel.lm=function(x,y,...)
 
 Appendix
 ========
- * Table1 
- 
-```{r, echo=FALSE}
 
-```
- * Table2   Confidence Intervals of model lm(mpg ~ wt + cyl + hp + disp + hp:disp)
+          * Table1   Confidence Intervals of model lm(mpg ~ wt + cyl + hp + disp + hp:disp)
  
 ```{r, echo=FALSE}
 confi_intvals
 ```
 
-* Figure1
+
 
 ```{r, echo=FALSE}
 pairs(mtcars_chose, lower.panel = panel.lm, upper.panel = panel.smooth, labels = names(mtcars_chose),
       diag.panel = panel.hist,col = (mtcars_chose$am)+3, main = "Relations Between All Features" )
 ```
-
+                            * Figure1    Relation between every two features
+     
 From the pairs of figures, we can see the # from the picture we can see that "cyl", "disp", "hp", and "wt" are negatively correlated with "mpg". "drat" is positively correlated with "mpg". We can also notice that blue points which represent manual cars have generally higher mpg than green points which represent automatic cars and we can also see that the "drat" variance distribution is like Gaussion distribution which means that it might have little relationship with others "disp" and "wt" might have linear relation and "hp" and "wt" might have linear relation.
-
- * Figure2 The Residuals of linear model between "mpg" and "wt"
  
 ```{r, echo=FALSE,fig.width=4,fig.height=4}
-plot(mtcars$wt , resid(lm(mtcars$mpg ~ mtcars$wt , data = mtcars_chose)), lwd = 2,main = "Residuals of wt")
+plot(mtcars$wt , resid(lm(mtcars$mpg ~ mtcars$wt , data = mtcars_chose)), lwd = 2,main = "Residuals of Weight", xlab = "Weight of cars", ylab = "Residuals")
 abline(h = mean(resid(lm(mtcars$mpg ~ mtcars$wt , data = mtcars_chose))), lwd = 2)
 ```
+                      * Figure2 The Residuals of linear model between "mpg" and "wt"
 
- * Figure3 The Residuals of the linear model mpg ~ wt + cyl + hp + disp + hp:disp
- 
 ```{r, echo=FALSE,fig.width=4,fig.height=4}
 x <- coe[1] + coe[2] * mtcars_chose$wt + coe[3] * mtcars_chose$cyl + coe[4] * mtcars_chose$hp + 
   coe[5] * mtcars_chose$disp + coe[6] * mtcars_chose$hp*mtcars_chose$disp
-plot(x, summary(fit13235)$resid)
+plot(x, summary(fit13235)$resid,lwd = 2, main = "Residuals of best linear model", xlab = "Linear combination of features", ylab = "Residuals")
 abline(h = mean(summary(fit13235)$resid))
 ```
+                * Figure3 The Residuals of the linear model mpg ~ wt + cyl + hp + disp + hp:disp
 
- * Figure4 The Real and Predict value of mpg
  
 ```{r, echo =FALSE,fig.width=4,fig.height=4}
 y <- mtcars_chose$mpg
-plot(x,y)
+plot(x,y,xlab = "Predict Value Of mpg", ylab = "True Value Of mpg" ,type = "p", main =" Real vs. Predict value")
 abline(lm(y~x) , lw = 2)
 ```
+                                * Figure4 The Real and Predict value of mpg
 
 
- * Figure5 Results
 ```{r, echo =FALSE,fig.width=4,fig.height=4}
 plot(x,y,xlab = "Predict Value Of mpg", ylab = "True Value Of mpg" ,type = "p",col = (mtcars_chose$am)+3, main = "Results")
 ```
+                                             * Figure5 Results
 Blue points represent the manual cars and the green points represents the automatic cars
 
 
