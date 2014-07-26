@@ -143,20 +143,16 @@ coe <- summary(fit13235)$coef[,1]
 
 ```
 
-
-
-
-
 Multivariate analysis
 =====================
-As you can see, a feature has already been chosen to the linear model, but did the other features have no linear relationship with mpg? Probably not! So I ordered the residuals and chose another four least residuals corresponding to features :"cyl" ,"disp", "hp" and "drat". They were included in this linear model one by one in the increasing order of residuals. The first included feature is "cyl", because including it results in largest amount of decrese of  standard deviation. Feature "hp" is next, then feature "disp" and the multiply of "disp" and "hp". Here are the standard deviation of different number of features included.
+As you can see, a feature has already been chosen to the linear model, but did the other features have no linear relationship with mpg? Probably not! So I ordered the residuals and chose another four least residuals corresponding to features :"cyl" ,"disp", "hp" and "drat". They were included in this linear model one by one in the increasing order of residuals. The first included feature is "cyl", because including it results in largest amount of decrese of  standard deviation. Feature "hp" is next, then feature "disp" and the multiply of "disp" and "hp". The standard deviations of different number of features included are present in Table1. Here is the **coefficients(interception)** of my final model:
 ```{r, echo=FALSE}
-sumresid_result <- c(sumresid15,sumresid25,sumresid35,sumresid45,sumresid125,sumresid135,sumresid1235,sumresid12345,sumresid13235)
-
-sd_result <- c(sd.15,sd.25,sd.35,sd.45,sd.125,sd.135, sd.1235, sd.12345, sd.13235)
-t(data.frame(sumresid_result, sd_result))
+summary(fit13235)$coefficients
 ```
-As the last result show, this is the best model we have made so far from now. And also let's do some confidence analysis. The confidence interval of all the feature in the Table1.
+
+ So we can see that the intercept is 44.46 and coefficients of every features are: wt(-3.43), cyl(0.0045), hp(-0.095), disp(-0.042), hp:disp(0.00026). So the linear model is: $mpg = 44.64-3.43wt+0.0045cyl-0.096hp-0.042disp+0.00026hp*disp$.
+
+As the last result show, this is the best model we have made so far from now. And also let's do some confidence analysis. The confidence interval of all the feature in the Table2.
 ```{r, echo=FALSE}
 sumcoef <- summary(fit13235)$coefficients
 
@@ -224,55 +220,55 @@ panel.lm=function(x,y,...)
 
 ```
 
-
-
 Appendix
 ========
+          * Table1  The standard deviations of different features
+```{r, echo=FALSE}
+sumresid_result <- c(sumresid15,sumresid25,sumresid35,sumresid45,sumresid125,sumresid135,sumresid1235,sumresid12345,sumresid13235)
 
-          * Table1   Confidence Intervals of model lm(mpg ~ wt + cyl + hp + disp + hp:disp)
- 
+sd_result <- c(sd.15,sd.25,sd.35,sd.45,sd.125,sd.135, sd.1235, sd.12345, sd.13235)
+t(data.frame(sumresid_result, sd_result))
+```
+
+          * Table2   Confidence Intervals of model lm(mpg ~ wt + cyl + hp + disp + hp:disp)
 ```{r, echo=FALSE}
 confi_intvals
 ```
-
-
-
 ```{r, echo=FALSE}
 pairs(mtcars_chose, lower.panel = panel.lm, upper.panel = panel.smooth, labels = names(mtcars_chose),
       diag.panel = panel.hist,col = (mtcars_chose$am)+3, main = "Relations Between All Features" )
 ```
-                            * Figure1    Relation between every two features
-     
+
+                         * Figure1    Relation between every two features
+
 From the pairs of figures, we can see the # from the picture we can see that "cyl", "disp", "hp", and "wt" are negatively correlated with "mpg". "drat" is positively correlated with "mpg". We can also notice that blue points which represent manual cars have generally higher mpg than green points which represent automatic cars and we can also see that the "drat" variance distribution is like Gaussion distribution which means that it might have little relationship with others "disp" and "wt" might have linear relation and "hp" and "wt" might have linear relation.
- 
-```{r, echo=FALSE,fig.width=4,fig.height=4}
+```{r, echo=FALSE,fig.height=3.7}
 plot(mtcars$wt , resid(lm(mtcars$mpg ~ mtcars$wt , data = mtcars_chose)), lwd = 2,main = "Residuals of Weight", xlab = "Weight of cars", ylab = "Residuals")
 abline(h = mean(resid(lm(mtcars$mpg ~ mtcars$wt , data = mtcars_chose))), lwd = 2)
 ```
-                      * Figure2 The Residuals of linear model between "mpg" and "wt"
 
-```{r, echo=FALSE,fig.width=4,fig.height=4}
+              * Figure2  The Residuals of linear model between "mpg" and "wt"
+
+```{r, echo=FALSE,fig.height=3.7}
 x <- coe[1] + coe[2] * mtcars_chose$wt + coe[3] * mtcars_chose$cyl + coe[4] * mtcars_chose$hp + 
   coe[5] * mtcars_chose$disp + coe[6] * mtcars_chose$hp*mtcars_chose$disp
 plot(x, summary(fit13235)$resid,lwd = 2, main = "Residuals of best linear model", xlab = "Linear combination of features", ylab = "Residuals")
 abline(h = mean(summary(fit13235)$resid))
 ```
-                * Figure3 The Residuals of the linear model mpg ~ wt + cyl + hp + disp + hp:disp
 
- 
-```{r, echo =FALSE,fig.width=4,fig.height=4}
+            * Figure3 The Residuals of the linear model mpg ~ wt + cyl + hp + disp + hp:disp
+            
+```{r, echo =FALSE,fig.height=3.8}
 y <- mtcars_chose$mpg
 plot(x,y,xlab = "Predict Value Of mpg", ylab = "True Value Of mpg" ,type = "p", main =" Real vs. Predict value")
 abline(lm(y~x) , lw = 2)
 ```
-                                * Figure4 The Real and Predict value of mpg
 
-
-```{r, echo =FALSE,fig.width=4,fig.height=4}
+                            * Figure4 The Real and Predict value of mpg
+```{r, echo =FALSE,fig.height=3.8}
 plot(x,y,xlab = "Predict Value Of mpg", ylab = "True Value Of mpg" ,type = "p",col = (mtcars_chose$am)+3, main = "Results")
 ```
-                                             * Figure5 Results
+
+                                        * Figure5 Results
+
 Blue points represent the manual cars and the green points represents the automatic cars
-
-
-
