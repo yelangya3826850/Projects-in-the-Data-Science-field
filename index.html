@@ -4,11 +4,11 @@
   <head>
     <meta charset='utf-8' />
     <meta http-equiv="X-UA-Compatible" content="chrome=1" />
-    <meta name="description" content="Datasciencecoursera : This repository is mainly used to store R-programs of Data Science class of Johns Hopkins" />
+    <meta name="description" content="Machine-Learning-Assignment : This page mainly show the results of the Machine-Learning-Assignment" />
 
     <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
 
-    <title>Datasciencecoursera</title>
+    <title>Machine-Learning-Assignment</title>
   </head>
 
   <body>
@@ -18,8 +18,8 @@
         <header class="inner">
           <a id="forkme_banner" href="https://github.com/yelangya3826850/datasciencecoursera">View on GitHub</a>
 
-          <h1 id="project_title">Datasciencecoursera</h1>
-          <h2 id="project_tagline">This repository is mainly used to store R-programs of Data Science class of Johns Hopkins</h2>
+          <h1 id="project_title">Machine-Learning-Assignment</h1>
+          <h2 id="project_tagline">This page mainly show the results of the Machine-Learning-Assignment</h2>
 
             <section id="downloads">
               <a class="zip_download_link" href="https://github.com/yelangya3826850/datasciencecoursera/zipball/master">Download this project as a .zip file</a>
@@ -31,44 +31,218 @@
     <!-- MAIN CONTENT -->
     <div id="main_content_wrap" class="outer">
       <section id="main_content" class="inner">
-        <h3>
-<a name="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages"><span class="octicon octicon-link"></span></a>Welcome to GitHub Pages.</h3>
+        <hr><p>title: "Machine-Learning-Assignment"
+author: "MengNan"
+date: "Thursday, July 24, 2014"</p>
 
-<p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here using GitHub Flavored Markdown, select a template crafted by a designer, and publish. After your page is generated, you can check out the new branch:</p>
+<p>This HTML Page is mainly about the project for Machine Learning provided by JOHNS HOPKINS (<a href="https://www.coursera.org/course/predmachlearn">https://www.coursera.org/course/predmachlearn</a>) </p>
 
-<pre><code>$ cd your_repo_root/repo_name
-$ git fetch origin
-$ git checkout gh-pages
+<h1>
+<a name="1backgroud" class="anchor" href="#1backgroud"><span class="octicon octicon-link"></span></a>1.Backgroud</h1>
+
+<p>Using devices such as Jawbone Up, Nike FuelBand, and Fitbit it is now possible to collect a large amount of data about personal activity relatively inexpensively. These type of devices are part of the quantified self movement 鈥? a group of enthusiasts who take measurements about themselves regularly to improve their health, to find patterns in their behavior, or because they are tech geeks. One thing that people regularly do is quantify how much of a particular activity they do, but they rarely quantify how well they do it. In this project, your goal will be to use data from accelerometers on the belt, forearm, arm, and dumbell of 6 participants. They were asked to perform barbell lifts correctly and incorrectly in 5 different ways. More information is available from the website here: <a href="http://groupware.les.inf.puc-rio.br/har">http://groupware.les.inf.puc-rio.br/har</a> (see the section on the Weight Lifting Exercise Dataset). </p>
+
+<h1>
+<a name="2main-work" class="anchor" href="#2main-work"><span class="octicon octicon-link"></span></a>2.Main Work</h1>
+
+<ul>
+<li>Getting and Cleaning Data</li>
+</ul><p>Recalling the classes, we know that the most important thing is to come up with questions. Now, the questuions we need to solve has been stated above. So, in the beginning, the first thing we have to do is to get data. After downloading the data sets, you may find that most of the data is missing, so getting and cleaning the data sets is necessary. I use function "FindBlank", and clean the data sets to get "TrainData" and "TestData" as follows(just show part of the data):</p>
+
+<pre lang="r,"><code>summary(TrainData)[,7:12]
+
+    num_window      roll_belt         pitch_belt          yaw_belt       
+    "Min.   :  1  " "Min.   :-28.9  " "Min.   :-55.80  " "Min.   :-180.0  "
+    "1st Qu.:222  " "1st Qu.:  1.1  " "1st Qu.:  1.76  " "1st Qu.: -88.3  "
+    "Median :424  " "Median :113.0  " "Median :  5.28  " "Median : -13.0  "
+    "Mean   :431  " "Mean   : 64.4  " "Mean   :  0.31  " "Mean   : -11.2  "
+    "3rd Qu.:644  " "3rd Qu.:123.0  " "3rd Qu.: 14.90  " "3rd Qu.:  12.9  "
+    "Max.   :864  " "Max.   :162.0  " "Max.   : 60.30  " "Max.   : 179.0  "
+    NA              NA                NA                 NA                
+    total_accel_belt  gyros_belt_x      
+    "Min.   : 0.0  " "Min.   :-1.0400  "
+    "1st Qu.: 3.0  " "1st Qu.:-0.0300  "
+    "Median :17.0  " "Median : 0.0300  "
+    "Mean   :11.3  " "Mean   :-0.0056  "
+    "3rd Qu.:18.0  " "3rd Qu.: 0.1100  "
+    "Max.   :29.0  " "Max.   : 2.2200  "
+    NA               NA
 </code></pre>
 
-<p>If you're using the GitHub for Mac, simply sync your repository and you'll see the new branch.</p>
+<div class="highlight highlight-r"><pre><span class="kp">head</span><span class="p">(</span>TrainData<span class="p">,</span><span class="m">4</span><span class="p">)[,</span><span class="m">7</span><span class="o">:</span><span class="m">12</span><span class="p">]</span>
+     num_window roll_belt pitch_belt yaw_belt total_accel_belt gyros_belt_x
+   <span class="m">1</span>         <span class="m">11</span>      <span class="m">1.41</span>       <span class="m">8.07</span>    <span class="m">-94.4</span>                <span class="m">3</span>         <span class="m">0.00</span>
+   <span class="m">2</span>         <span class="m">11</span>      <span class="m">1.41</span>       <span class="m">8.07</span>    <span class="m">-94.4</span>                <span class="m">3</span>         <span class="m">0.02</span>
+   <span class="m">3</span>         <span class="m">11</span>      <span class="m">1.42</span>       <span class="m">8.07</span>    <span class="m">-94.4</span>                <span class="m">3</span>         <span class="m">0.00</span>
+   <span class="m">4</span>         <span class="m">12</span>      <span class="m">1.48</span>       <span class="m">8.05</span>    <span class="m">-94.4</span>                <span class="m">3</span>         <span class="m">0.02</span>
+</pre></div>
 
-<h3>
-<a name="designer-templates" class="anchor" href="#designer-templates"><span class="octicon octicon-link"></span></a>Designer Templates</h3>
+<div class="highlight highlight-r"><pre><span class="kp">head</span><span class="p">(</span>TestData<span class="p">,</span><span class="m">4</span><span class="p">)[,</span><span class="m">7</span><span class="o">:</span><span class="m">12</span><span class="p">]</span>
+     num_window roll_belt pitch_belt yaw_belt total_accel_belt gyros_belt_x
+   <span class="m">1</span>         <span class="m">74</span>    <span class="m">123.00</span>      <span class="m">27.00</span>    <span class="m">-4.75</span>               <span class="m">20</span>        <span class="m">-0.50</span>
+   <span class="m">2</span>        <span class="m">431</span>      <span class="m">1.02</span>       <span class="m">4.87</span>   <span class="m">-88.90</span>                <span class="m">4</span>        <span class="m">-0.06</span>
+   <span class="m">3</span>        <span class="m">439</span>      <span class="m">0.87</span>       <span class="m">1.82</span>   <span class="m">-88.50</span>                <span class="m">5</span>         <span class="m">0.05</span>
+   <span class="m">4</span>        <span class="m">194</span>    <span class="m">125.00</span>     <span class="m">-41.60</span>   <span class="m">162.00</span>               <span class="m">17</span>         <span class="m">0.11</span>
+</pre></div>
 
-<p>We've crafted some handsome templates for you to use. Go ahead and continue to layouts to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved if it remained markdown format.</p>
+<ul>
+<li>PCA &amp; Slicing Data</li>
+</ul><p>About 60 features without blank or missing value are chosen from the original data, but 60 is also a large feature set. I want less and typical features which show relatively obvious difference between each two types. So I preprocessing the data by PCA(the data have already been scaled and centerred before PCA). After this step I get a data sets of 37 "features", named from PC1 to PC37(The reason why I choose first 37 features will be stated at the Cross Validation Part).</p>
 
-<h3>
-<a name="rather-drive-stick" class="anchor" href="#rather-drive-stick"><span class="octicon octicon-link"></span></a>Rather Drive Stick?</h3>
+<p>I used the training data(PCAtrainData) to built my model. Because of some good results of random forest model have been showed before, I Would like to use this model again. Then, slicing the training data into a subset of one smaller training data set(training) and a subset of testing data(testing) which was 1/4 size of the training data. But in fact, my training data(PCAtrainData) was much larger to train a classification model(training the whole large data set need too much time!!!). So I first randomly picked 20 percent of the whole PCAtrainData to make a new smaller training data set(PPCAtrainData), and then sliced 3/4 of PPCAtrainData to train the model and 1/4 of the PPCAtrainData to test whether my model is good enough</p>
 
-<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator written by our own Tom Preston-Werner. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
+<div class="highlight highlight-r"><pre>Pick <span class="o">&lt;-</span> createDataPartition<span class="p">(</span>y <span class="o">=</span> PCAtrainData<span class="o">$</span>Class<span class="p">,</span> p <span class="o">=</span> <span class="m">0.2</span><span class="p">,</span> <span class="kt">list</span> <span class="o">=</span> <span class="kc">FALSE</span><span class="p">)</span>
+PPCAtrainData <span class="o">&lt;-</span> PCAtrainData<span class="p">[</span>Pick<span class="p">,]</span>
+inTrain <span class="o">&lt;-</span> createDataPartition<span class="p">(</span>y <span class="o">=</span> PPCAtrainData<span class="o">$</span>Class<span class="p">,</span> p <span class="o">=</span> <span class="m">0.75</span><span class="p">,</span> <span class="kt">list</span> <span class="o">=</span> <span class="kc">FALSE</span><span class="p">)</span>
+training <span class="o">&lt;-</span> PPCAtrainData<span class="p">[</span>inTrain<span class="p">,]</span>
+testing <span class="o">&lt;-</span> PPCAtrainData<span class="p">[</span><span class="o">-</span>inTrain<span class="p">,]</span>
+</pre></div>
 
-<h3>
-<a name="authors-and-contributors" class="anchor" href="#authors-and-contributors"><span class="octicon octicon-link"></span></a>Authors and Contributors</h3>
+<ul>
+<li>Cross Validation &amp; Error Anlysis</li>
+</ul><p>To analysis the sample error, this page firstly show the in sample error and out of sample error of objects then we will talk about the feature error.
+First of all, using the same object twice to built the model1 and model2, and compute the in sample error of the same objects, I get the error rate:</p>
 
-<p>You can <a href="https://github.com/blog/821" class="user-mention">@mention</a> a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor's GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
+<pre lang="r,"><code>error_internal
+  [1] 0
+</code></pre>
 
-<h3>
-<a name="support-or-contact" class="anchor" href="#support-or-contact"><span class="octicon octicon-link"></span></a>Support or Contact</h3>
+<p>Then, use different objects(but the number of objects is same) to built the model3 and compute the out of sample error. The error rate is:</p>
 
-<p>Having trouble with Pages? Check out the documentation at <a href="http://help.github.com/pages">http://help.github.com/pages</a> or contact <a href="mailto:support@github.com">support@github.com</a> and we’ll help you sort it out.</p>
+<pre lang="r,"><code>error_external
+  [1] -0.08391
+</code></pre>
+
+<p>We can see that both in sample error and out of sample error is small. Remember we ues the PCA and preprocess the features. So, the differences between objects with the same features is not so obvious. But the differences between features is something need to consider...</p>
+
+<p>Like what we did just now, keeping the objects unchange, but using the same and different features to calculate the in sample and out of sample error of features, I get:</p>
+
+<pre lang="r,"><code>Ferror_internal:
+  [1] 0.03448
+
+Ferror_external:
+  [1] -0.01724
+</code></pre>
+
+<p>The results show that in sample error can be ignored but the out of sample error is obvious, which means that the the features with larger distinction between different classes of objects should be included into model. This time, I choose first 37 features, for they can intercept 99% of the difference between objects of different classes.</p>
+
+<ul>
+<li>Training Model</li>
+</ul><p>Now, let's train the model, you can see some information of modelFit:
+The "leave one out" method is used to get some fitted parameter:</p>
+
+<div class="highlight highlight-r"><pre>trControl <span class="o">&lt;-</span> trainControl<span class="p">(</span>method <span class="o">=</span> <span class="s">"LOOCV"</span><span class="p">,</span>p <span class="o">=</span> <span class="m">0.75</span><span class="p">,</span> horizon <span class="o">=</span> <span class="m">1</span><span class="p">)</span>
+</pre></div>
+
+<div class="highlight highlight-r"><pre><span class="kp">set.seed</span><span class="p">(</span><span class="m">1235</span><span class="p">)</span>
+modelFit <span class="o">&lt;-</span> train<span class="p">(</span>Class <span class="o">~</span> <span class="m">.</span><span class="p">,</span> data <span class="o">=</span> training<span class="p">,</span> method <span class="o">=</span> <span class="s">"rf"</span><span class="p">,</span> prox <span class="o">=</span> <span class="kc">TRUE</span><span class="p">)</span>
+modelFit
+</pre></div>
+
+<div class="highlight highlight-r"><pre>   Random Forest 
+
+   <span class="m">2946</span> samples
+     <span class="m">37</span> predictors
+      <span class="m">5</span> classes<span class="o">:</span> <span class="s">'A'</span><span class="p">,</span> <span class="s">'B'</span><span class="p">,</span> <span class="s">'C'</span><span class="p">,</span> <span class="s">'D'</span><span class="p">,</span> <span class="s">'E'</span> 
+
+   No pre<span class="o">-</span>processing
+   Resampling<span class="o">:</span> Bootstrapped <span class="p">(</span><span class="m">25</span> reps<span class="p">)</span> 
+
+   Summary of sample sizes<span class="o">:</span> <span class="m">2946</span><span class="p">,</span> <span class="m">2946</span><span class="p">,</span> <span class="m">2946</span><span class="p">,</span> <span class="m">2946</span><span class="p">,</span> <span class="m">2946</span><span class="p">,</span> <span class="m">2946</span><span class="p">,</span> <span class="kc">...</span> 
+
+   Resampling results across tuning parameters<span class="o">:</span>
+
+     mtry  Accuracy  Kappa  Accuracy SD  Kappa SD
+     <span class="m">2</span>     <span class="m">0.9</span>       <span class="m">0.9</span>    <span class="m">0.01</span>         <span class="m">0.01</span>    
+     <span class="m">20</span>    <span class="m">0.9</span>       <span class="m">0.9</span>    <span class="m">0.008</span>        <span class="m">0.01</span>    
+     <span class="m">40</span>    <span class="m">0.9</span>       <span class="m">0.8</span>    <span class="m">0.01</span>         <span class="m">0.01</span>    
+
+   Accuracy was used to select the optimal model using  the largest value.
+   The final value used <span class="kr">for</span> the model was mtry <span class="o">=</span> <span class="m">2.</span>
+</pre></div>
+
+<p>ettign a single tree:</p>
+
+<pre lang="r,"><code>head(getTree(modelFit$finalModel, k =2), 20)
+
+      left daughter right daughter split var split point status prediction
+   1              2              3         8   -0.439521      1          0
+   2              4              5        26    0.282418      1          0
+   3              6              7         2   -3.257470      1          0
+   4              8              9         1   -2.368308      1          0
+   5             10             11        16   -0.175123      1          0
+   6             12             13        31    0.439456      1          0
+   7             14             15         9    1.223792      1          0
+   8             16             17        24   -0.319219      1          0
+   9             18             19        15   -0.371436      1          0
+   10            20             21        12    1.034038      1          0
+   11            22             23        15   -0.574681      1          0
+   12            24             25         1    3.932895      1          0
+   13            26             27        34   -0.291963      1          0
+   14            28             29        11    0.037027      1          0
+   15            30             31         2   -1.603132      1          0
+   16            32             33        15   -1.264030      1          0
+   17            34             35        10    0.115752      1          0
+   18            36             37        20   -0.475095      1          0
+   19            38             39         3   -0.002069      1          0
+   20            40             41        33   -0.346561      1          0
+</code></pre>
+
+<p>For a obverious look, I draw the class centering figure(I just use two most distict features PC1 and PC2):</p>
+
+<p><img src="https://raw.githubusercontent.com/yelangya3826850/datasciencecoursera/master/Machine-Learning/Assignment/Result.jpg" alt="Result"></p>
+
+<p>The Accuracy of my model:</p>
+
+<pre lang="r,echo=FALSE"><code>pred &lt;- predict(modelFit,testing); testing$predRight &lt;- pred==testing$Class
+table(pred, testing$Class)
+Accuracy &lt;- sum(testing$predRight)/length(testing$predRight)
+data.frame(Accuracy = Accuracy)
+</code></pre>
+
+<pre lang="r,echo=FALSE"><code>   pred   A   B   C   D   E
+      A 271   9   3   2   1
+      B   2 173   7   2   4
+      C   0   4 152  14   2
+      D   5   0   7 140   1
+      E   1   4   2   3 172
+
+        Accuracy
+   [1]    0.9256
+</code></pre>
+
+<p>Finally, test the given 20 problems by fitted model obtained just now and get a result answer:</p>
+
+<div class="highlight highlight-r"><pre>answers <span class="o">&lt;-</span> predict<span class="p">(</span>modelFit<span class="p">,</span>PCAtestData<span class="p">);</span>
+answers
+    <span class="p">[</span><span class="m">1</span><span class="p">]</span> B A B A A E D B A A B C B A E E A B B B
+   Levels<span class="o">:</span> A B C D E
+</pre></div>
+
+<p>Note that, the real answer is "B","A","B","A","A","E","D","B","A","A","B","C","B","A","E","E","A","B","B","B"
+(I have try many times to get it! ^_^). So you can see how good my prediction is!</p>
+
+<h1>
+<a name="appendix" class="anchor" href="#appendix"><span class="octicon octicon-link"></span></a>Appendix</h1>
+
+<ul>
+<li>Data Source</li>
+</ul><p>The training data for this project are available here: </p>
+
+<p><a href="https://d396qusza40orc.cloudfront.net/predmachlearn/pml-training.csv">https://d396qusza40orc.cloudfront.net/predmachlearn/pml-training.csv</a></p>
+
+<p>The test data are available here: </p>
+
+<p><a href="https://d396qusza40orc.cloudfront.net/predmachlearn/pml-testing.csv">https://d396qusza40orc.cloudfront.net/predmachlearn/pml-testing.csv</a></p>
+
+<p>The data for this project come from this source: <a href="http://groupware.les.inf.puc-rio.br/har">http://groupware.les.inf.puc-rio.br/har</a>. If you use the document you create for this class for any purpose please cite them as they have been very generous in allowing their data to be used for this kind of assignment. </p>
       </section>
     </div>
 
     <!-- FOOTER  -->
     <div id="footer_wrap" class="outer">
       <footer class="inner">
-        <p class="copyright">Datasciencecoursera maintained by <a href="https://github.com/yelangya3826850">yelangya3826850</a></p>
+        <p class="copyright">Machine-Learning-Assignment maintained by <a href="https://github.com/yelangya3826850">yelangya3826850</a></p>
         <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
       </footer>
     </div>
