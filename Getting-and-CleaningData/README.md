@@ -10,6 +10,9 @@ How to run this project
   *  Source the run_analysis.R file
   *  Then you only need to Type :   run_analysis()     at your R console and press enter  and wait for a minute your will see the result
   *  You will also get a Activities.txt file under document "Getting-and-CleaningData"
+
+### Or:
+  you can just download the whole document Getting-and-CleaningData(with the UCI Machine Learning document in it), and set your R current working path to the document "Getting-and-CleaningData" and run the program run_analysis() like what I put above
   
   
 notes
