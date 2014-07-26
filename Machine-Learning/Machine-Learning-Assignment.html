@@ -67,9 +67,8 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
 <div id="main-work" class="section level1">
 <h1>2.Main Work</h1>
 <ul>
-<li>Getting and Cleaning Data</li>
+<li>Getting and Cleaning Data Recalling the classes, we know that the most important thing is to come up with questions. Now, the questuions we need to solve has been stated above. So, in the beginning, the first thing we have to do is to get data. After downloading the data sets, you may find that most of the data is missing, so getting and cleaning the data sets is necessary. I use function “FindBlank”, and clean the data sets to get “TrainData” and “TestData” as follows(just show part of the data):</li>
 </ul>
-<p>Recalling the classes, we know that the most important thing is to come up with questions. Now, the questuions we need to solve has been stated above. So, in the beginning, the first thing we have to do is to get data. After downloading the data sets, you may find that most of the data is missing, so getting and cleaning the data sets is necessary. I use function “FindBlank”, and clean the data sets to get “TrainData” and “TestData” as follows(just show part of the data):</p>
 <pre><code>## Loading required package: lattice
 ## Loading required package: ggplot2</code></pre>
 <pre class="r"><code>summary(TrainData)[,7:12]</code></pre>
@@ -102,9 +101,8 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
 ## 3        439      0.87       1.82   -88.50                5         0.05
 ## 4        194    125.00     -41.60   162.00               17         0.11</code></pre>
 <ul>
-<li>PCA &amp; Slicing Data</li>
+<li>PCA &amp; Slicing Data About 60 features without blank or missing value are chosen from the original data, but 60 is also a large feature set. I want less and typical features which show relatively obvious difference between each two types. So I preprocessing the data by PCA(the data have already been scaled and centerred before PCA). After this step I get a data sets of 37 “features”, named from PC1 to PC37(The reason why I choose first 37 features will be stated at the Cross Validation Part).</li>
 </ul>
-<p>About 60 features without blank or missing value are chosen from the original data, but 60 is also a large feature set. I want less and typical features which show relatively obvious difference between each two types. So I preprocessing the data by PCA(the data have already been scaled and centerred before PCA). After this step I get a data sets of 37 “features”, named from PC1 to PC37(The reason why I choose first 37 features will be stated at the Cross Validation Part).</p>
 <p>I used the training data(PCAtrainData) to built my model. Because of some good results of random forest model have been showed before, I Would like to use this model again. Then, slicing the training data into a subset of one smaller training data set(training) and a subset of testing data(testing) which was 1/4 size of the training data. But in fact, my training data(PCAtrainData) was much larger to train a classification model(training the whole large data set need too much time!!!). So I first randomly picked 20 percent of the whole PCAtrainData to make a new smaller training data set(PPCAtrainData), and then sliced 3/4 of PPCAtrainData to train the model and 1/4 of the PPCAtrainData to test whether my model is good enough</p>
 <pre class="r"><code>Pick &lt;- createDataPartition(y = PCAtrainData$Class, p = 0.2, list = FALSE)
 PPCAtrainData &lt;- PCAtrainData[Pick,]
@@ -129,9 +127,9 @@ testing &lt;- PPCAtrainData[-inTrain,]</code></pre>
 <pre><code>## [1] -0.01724</code></pre>
 <p>The results show that in sample error can be ignored but the out of sample error is obvious, which means that the the features with larger distinction between different classes of objects should be included into model. This time, I choose first 37 features, for they can intercept 99% of the difference between objects of different classes.</p>
 <ul>
-<li>Training Model</li>
+<li>Training Model Now, let’s train the model, you can see some information of modelFit:</li>
 </ul>
-<p>Now, let’s train the model, you can see some information of modelFit: The “leave one out” method is used to get some fitted parameter:</p>
+<p>The “leave one out” method is used to get some fitted parameter:</p>
 <pre class="r"><code>trControl &lt;- trainControl(method = &quot;LOOCV&quot;,p = 0.75, horizon = 1)</code></pre>
 <pre class="r"><code>set.seed(1235)
 modelFit &lt;- train(Class ~ ., data = training, method = &quot;rf&quot;, prox = TRUE)
