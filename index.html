@@ -104,7 +104,7 @@ testing <span class="o">&lt;-</span> PPCAtrainData<span class="p">[</span><span 
 First of all, using the same object twice to built the model1 and model2, and compute the in sample error of the same objects, I get the error rate:</p>
 
 <pre lang="r,"><code>error_internal
-  [1] 0
+  [1] 0.06896
 </code></pre>
 
 <p>Then, use different objects(but the number of objects is same) to built the model3 and compute the out of sample error. The error rate is:</p>
@@ -121,7 +121,7 @@ First of all, using the same object twice to built the model1 and model2, and co
   [1] 0.00018
 
 Ferror_external:
-  [1] -0.01724
+  [1] -0.15057
 </code></pre>
 
 <p>The results show that in sample error can be ignored but the out of sample error is obvious, which means that the the features with larger distinction between different classes of objects should be included into model. This time, I choose first 37 features, for they can intercept 99% of the difference between objects of different classes.</p>
