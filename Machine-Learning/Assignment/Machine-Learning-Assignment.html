@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 
@@ -116,15 +116,13 @@ testing &lt;- PPCAtrainData[-inTrain,]</code></pre>
 <pre><code>## Loading required package: randomForest
 ## randomForest 4.6-10
 ## Type rfNews() to see new features/changes/bug fixes.</code></pre>
-<pre><code>## [1] 0</code></pre>
+<pre><code>## [1] 0.06896</code></pre>
 <p>Then, use different objects(but the number of objects is same) to built the model3 and compute the out of sample error. The error rate is:</p>
 <pre><code>## [1] -0.08391</code></pre>
 <p>We can see that both in sample error and out of sample error is small. Remember we ues the PCA and preprocess the features. So, the differences between objects with the same features is not so obvious. But the differences between features is something need to consider…</p>
 <p>Like what we did just now, keeping the objects unchange, but using the same and different features to calculate the in sample and out of sample error of features, I get:</p>
-<pre><code>## [1] 0.03448</code></pre>
-<pre><code>## Warning: 长的对象长度不是短的对象长度的整倍数
-## Warning: 长的对象长度不是短的对象长度的整倍数</code></pre>
-<pre><code>## [1] -0.01724</code></pre>
+<pre><code>## [1] 0.00018</code></pre>
+<pre><code>## [1] -0.15057</code></pre>
 <p>The results show that in sample error can be ignored but the out of sample error is obvious, which means that the the features with larger distinction between different classes of objects should be included into model. This time, I choose first 37 features, for they can intercept 99% of the difference between objects of different classes.</p>
 <ul>
 <li>Training Model Now, let’s train the model, you can see some information of modelFit:</li>
