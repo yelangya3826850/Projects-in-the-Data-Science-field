@@ -125,7 +125,7 @@ testing &lt;- PPCAtrainData[-inTrain,]</code></pre>
 <pre><code>## [1] -0.15057</code></pre>
 <p>The results show that in sample error can be ignored but the out of sample error is obvious, which means that the the features with larger distinction between different classes of objects should be included into model. This time, I choose first 37 features, for they can intercept 99% of the difference between objects of different classes.</p>
 <ul>
-<li>Training Model Now, let’s train the model, you can see some information of modelFit:</li>
+<p>Training Model Now, let’s train the model, you can see some information of modelFit:</p>
 </ul>
 <p>The “leave one out” method is used to get some fitted parameter:</p>
 <pre class="r"><code>trControl &lt;- trainControl(method = &quot;LOOCV&quot;,p = 0.75, horizon = 1)</code></pre>
@@ -184,6 +184,7 @@ modelFit</code></pre>
 ##    E   1   4   2   3 172</code></pre>
 <pre><code>##   Accuracy
 ## 1   0.9256</code></pre>
+<p>Which means that the out of sample error is 0.0744</p>
 <p>Finally, test the given 20 problems by fitted model obtained just now and get a result answer:</p>
 <pre class="r"><code>answers &lt;- predict(modelFit,PCAtestData);
 answers</code></pre>
