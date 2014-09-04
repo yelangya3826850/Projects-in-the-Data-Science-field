@@ -14,12 +14,15 @@ This repository is mainly used to store projects of Data Science field which I h
       This project is mainly to work for a certain magazine about the automobile industry. Looking at a data set of a         collection of cars, they are interested in exploring the relationship between a set of variables and miles per          gallon(MPG) (outcome), and mainly answer the following two questions:
       1. **“Is an automatic or manual transmission better for MPG”**
       2. **"Quantify the MPG difference between automatic and manual transmissions"**
-  * **[Getting and Cleaning Data](http://yelangya.github.io/Coursera-Data-Science-Getting-and-Cleaning-Data. )**
+  * **[Getting and Cleaning Data](http://yelangya.github.io/Coursera-Data-Science-Getting-and-Cleaning-Data)**
 
       This is actually not a project but a previous work for the future analysis. You know that raw data nowadays is          becoming more and more dirty and confusing, so it is important to preprocess these data to get a more clean ones.       And this web page is mainly tracing the work of mine processing data.
   * **[Plotting](http://yelangya.github.io/Coursera-Data-Science-Exploratory-Data-Analysis)**
+      
       This is actually not a project but a practice of plotting figures in R circumstance which is the basic work for         the future work
-
+  * **[Analysis for Influence of Air Pollutant PM2.5](http://yelangya.github.io/Coursera-Data-Science-Exploratory-Data-Analysis2)**
+      The overall goal of this project is to explore the National Emissions Inventory database and see what it say about fine particulate matter pollution in the United states over the 10-year period 1999–2008.
+      
 
 
 
