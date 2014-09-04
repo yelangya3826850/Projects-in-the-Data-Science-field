@@ -5,20 +5,20 @@ This repository is mainly used to store projects of Data Science field which I h
 
   * **[Machine Learning](http://yelangya3826850.github.io/datasciencecoursera/)**:  
       
-      Using the data from [Human Activity Recognition](http://groupware.les.inf.puc-rio.br/har) to predict the manner in         which they did the exercise. The data are collected from accelerometers on the belt, forearm, arm, and dumbell of 6        participants.
+      Using the data from [Human Activity Recognition](http://groupware.les.inf.puc-rio.br/har) to predict the manner in       which they did the exercise. The data are collected from accelerometers on the belt, forearm, arm, and dumbell of       6 participants.
   * **[Cache Time-consuming Computations](http://rpubs.com/yelangya3826850/CacheTime-consumingComputations)**:
       
-      Constructing an R function which is able to cache potentially time-consuming computations. The basic work for future       big data analysis.
+      Constructing an R function which is able to cache potentially time-consuming computations. The basic work for           future big data analysis.
   * **[Suggestion for variables influencing motor cars' miles per gallon (MPG)](http://rpubs.com/yelangya3826850/SuggestionforvariablesinfluencingmotorcarsmilespergallonMPG)**:
       
-      This project is mainly to work for a certain magazine about the automobile industry. Looking at a data set of a            collection of cars, they are interested in exploring the relationship between a set of variables and miles per gallon       (MPG) (outcome), and mainly answer the following two questions:
+      This project is mainly to work for a certain magazine about the automobile industry. Looking at a data set of a         collection of cars, they are interested in exploring the relationship between a set of variables and miles per          gallon(MPG) (outcome), and mainly answer the following two questions:
       1. **“Is an automatic or manual transmission better for MPG”**
       2. **"Quantify the MPG difference between automatic and manual transmissions"**
   * **[Getting and Cleaning Data](http://yelangya.github.io/Coursera-Data-Science-Getting-and-Cleaning-Data. )**
 
-      This is actually not a project but a previous work for the future analysis. You know that raw data nowadays is          becoming more and more dirty and confusing, so it is important to preprocess these data to get a more clean ones. And       this web page is mainly tracing the work of mine processing data.
+      This is actually not a project but a previous work for the future analysis. You know that raw data nowadays is          becoming more and more dirty and confusing, so it is important to preprocess these data to get a more clean ones.       And this web page is mainly tracing the work of mine processing data.
   * **[Plotting](http://yelangya.github.io/Coursera-Data-Science-Exploratory-Data-Analysis)**
-      
+      This is actually not a project but a practice of plotting figures in R circumstance which is the basic work for         the future work
 
 
 
