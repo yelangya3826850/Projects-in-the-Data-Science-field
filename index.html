@@ -1,46 +1,63 @@
 <!DOCTYPE html>
 <html>
-
   <head>
-    <meta charset='utf-8' />
-    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
-    <meta name="description" content="Machine-Learning-Assignment : This page mainly show the results of the Machine-Learning-Assignment" />
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=640">
 
-    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+    <link rel="stylesheet" href="stylesheets/core.css" media="screen">
+    <link rel="stylesheet" href="stylesheets/mobile.css" media="handheld, only screen and (max-device-width:640px)">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
 
-    <title>Machine-Learning-Assignment</title>
+    <script type="text/javascript" src="javascripts/modernizr.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script type="text/javascript" src="javascripts/headsmart.min.js"></script>
+    <script type="text/javascript">
+      $(document).ready(function () {
+        $('#main_content').headsmart()
+      })
+    </script>
+    <title>Machine Learning by yelangya3826850</title>
   </head>
 
   <body>
+    <a id="forkme_banner" href="https://github.com/yelangya3826850/datasciencecoursera">View on GitHub</a>
+    <div class="shell">
 
-    <!-- HEADER -->
-    <div id="header_wrap" class="outer">
-        <header class="inner">
-          <a id="forkme_banner" href="https://github.com/yelangya3826850/datasciencecoursera">View on GitHub</a>
+      <header>
+        <span class="ribbon-outer">
+          <span class="ribbon-inner">
+            <h1>Machine Learning</h1>
+            <h2>This page mainly show the results of the Machine Learning used in the dataset Human Activity</h2>
+          </span>
+          <span class="left-tail"></span>
+          <span class="right-tail"></span>
+        </span>
+      </header>
 
-          <h1 id="project_title">Machine-Learning-Assignment</h1>
-          <h2 id="project_tagline">This page mainly show the results of the Machine-Learning-Assignment</h2>
+      <section id="downloads">
+        <span class="inner">
+          <a href="https://github.com/yelangya3826850/datasciencecoursera/zipball/master" class="zip"><em>download</em> .ZIP</a><a href="https://github.com/yelangya3826850/datasciencecoursera/tarball/master" class="tgz"><em>download</em> .TGZ</a>
+        </span>
+      </section>
 
-            <section id="downloads">
-              <a class="zip_download_link" href="https://github.com/yelangya3826850/datasciencecoursera/zipball/master">Download this project as a .zip file</a>
-              <a class="tar_download_link" href="https://github.com/yelangya3826850/datasciencecoursera/tarball/master">Download this project as a tar.gz file</a>
-            </section>
-        </header>
-    </div>
 
-    <!-- MAIN CONTENT -->
-    <div id="main_content_wrap" class="outer">
-      <section id="main_content" class="inner">
-        <hr><p>title: "Machine-Learning-Assignment"
-author: "MengNan"
-date: "Thursday, July 24, 2014"</p>
+      <span class="banner-fix"></span>
 
-<p>This HTML Page is mainly about the project for Machine Learning provided by JOHNS HOPKINS (<a href="https://www.coursera.org/course/predmachlearn">https://www.coursera.org/course/predmachlearn</a>) </p>
+
+      <section id="main_content">
+        <h3>
+<a name="author-mengnan" class="anchor" href="#author-mengnan"><span class="octicon octicon-link"></span></a>author: MengNan</h3>
+
+<h3>
+<a name="date-thursday-july-24-2014" class="anchor" href="#date-thursday-july-24-2014"><span class="octicon octicon-link"></span></a>date: Thursday, July 24, 2014</h3>
+
+<p>This HTML Page is mainly about the project for Machine Learning</p>
 
 <h1>
 <a name="1backgroud" class="anchor" href="#1backgroud"><span class="octicon octicon-link"></span></a>1.Backgroud</h1>
 
-<p>Using devices such as Jawbone Up, Nike FuelBand, and Fitbit it is now possible to collect a large amount of data about personal activity relatively inexpensively. These type of devices are part of the quantified self movement 鈥? a group of enthusiasts who take measurements about themselves regularly to improve their health, to find patterns in their behavior, or because they are tech geeks. One thing that people regularly do is quantify how much of a particular activity they do, but they rarely quantify how well they do it. In this project, your goal will be to use data from accelerometers on the belt, forearm, arm, and dumbell of 6 participants. They were asked to perform barbell lifts correctly and incorrectly in 5 different ways. More information is available from the website here: <a href="http://groupware.les.inf.puc-rio.br/har">http://groupware.les.inf.puc-rio.br/har</a> (see the section on the Weight Lifting Exercise Dataset). </p>
+<p>Using devices such as Jawbone Up, Nike FuelBand, and Fitbit it is now possible to collect a large amount of data about personal activity relatively inexpensively. These type of devices are part of the quantified self movement - a group of enthusiasts who take measurements about themselves regularly to improve their health, to find patterns in their behavior, or because they are tech geeks. One thing that people regularly do is quantify how much of a particular activity they do, but they rarely quantify how well they do it. In this project, your goal will be to use data from accelerometers on the belt, forearm, arm, and dumbell of 6 participants. They were asked to perform barbell lifts correctly and incorrectly in 5 different ways. More information is available from the website here: <a href="http://groupware.les.inf.puc-rio.br/har">http://groupware.les.inf.puc-rio.br/har</a> (see the section on the Weight Lifting Exercise Dataset). </p>
 
 <h1>
 <a name="2main-work" class="anchor" href="#2main-work"><span class="octicon octicon-link"></span></a>2.Main Work</h1>
@@ -237,17 +254,21 @@ answers
 
 <p>The data for this project come from this source: <a href="http://groupware.les.inf.puc-rio.br/har">http://groupware.les.inf.puc-rio.br/har</a>. If you use the document you create for this class for any purpose please cite them as they have been very generous in allowing their data to be used for this kind of assignment. </p>
       </section>
-    </div>
 
-    <!-- FOOTER  -->
-    <div id="footer_wrap" class="outer">
-      <footer class="inner">
-        <p class="copyright">Machine-Learning-Assignment maintained by <a href="https://github.com/yelangya3826850">yelangya3826850</a></p>
-        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      <footer>
+        <span class="ribbon-outer">
+          <span class="ribbon-inner">
+            <p>this project by <a href="https://github.com/yelangya3826850">yelangya3826850</a> can be found on <a href="https://github.com/yelangya3826850/datasciencecoursera">GitHub</a></p>
+          </span>
+          <span class="left-tail"></span>
+          <span class="right-tail"></span>
+        </span>
+        <p>Generated with <a href="http://pages.github.com">GitHub Pages</a> using Merlot</p>
+        <span class="octocat"></span>
       </footer>
+
     </div>
 
     
-
   </body>
 </html>
