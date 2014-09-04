@@ -1,0 +1,276 @@
+---
+title: "Suggestion for variables influencing motor cars' miles per gallon (MPG)"
+author: "MengNan"
+date: "Thursday, July 24, 2013"
+output: html_document
+---
+## Introduction
+
+This project is mainly to work for a certain magazine about the automobile industry. Looking at a data set of a collection of cars, they are interested in exploring the relationship between a set of variables and miles per gallon (MPG) (outcome), and mainly answer the following two questions:
+
+   * “Is an automatic or manual transmission better for MPG”
+   * "Quantify the MPG difference between automatic and manual transmissions"
+
+To answer these two questions, this paper first extract "useful" features(features may have influence on mpg) from the dataset mtcars. By calculating the empirical covariance between mpg and other features, and order the result, empirical covariances of all features which are larger than 0.68 have been picked. They are: cyl,disp,hp,drat and wt. Then, model mpg with all the other features respectively by linear model and get five residuals. I order the residuals to decide which has the best linear relation with mpg. Next, choose one of the remaining features(features have the least residuals) and include it in the linear model. If the new model have less residuals and standard errors, then accept it, otherwise drop it and try another one. Finally, try to find high dimensional relationship among features. I eventually choose the linear model lm(mpg ~ wt + cyl + hp + disp + hp*disp) to predict the mpg of both automatic cars and manual cars and find that: manual car have a higher average level of mpg but also a larger variance(or standard deviation). So under my preliminary analysis, I provide some suggestions:
+
+ * If you are a manager or a decision maker of a car factory, you should probably choose manual transmission of cars, because you will get more profits(for manual cars higher   empirical mean).
+ * If you are a home keeper or a housewife, you should chooes to buy an automatic car, because it can have higher chance helping you save money(for automatic cars have less variance)
+
+Univariate analysis
+===================
+
+In this part, I use linear model to model the feature mpg and all the other features respectively and get the residual sum of squares and covariation
+
+```{r, echo=FALSE}
+data(mtcars)
+auto_mtcars <- mtcars[mtcars$am == 0,]
+manu_mtcars <- mtcars[mtcars$am == 1,]
+sumresid1 <- sum(resid(summary(lm(mtcars$mpg ~ mtcars$cyl,data = mtcars)))^2)
+rho1 <- cor(mtcars$mpg, mtcars$cyl)
+
+sumresid2 <- sum(summary(lm(mtcars$mpg ~ mtcars$disp,data = mtcars))$resid^2)
+rho2 <- cor(mtcars$mpg, mtcars$disp)
+
+sumresid3 <- sum(summary(lm(mtcars$mpg ~ mtcars$hp,data = mtcars))$resid^2)
+rho3 <- cor(mtcars$mpg, mtcars$hp)
+
+sumresid4 <- sum(summary(lm(mtcars$mpg ~ mtcars$drat,data = mtcars))$resid^2)
+rho4 <- cor(mtcars$mpg, mtcars$drat)
+
+sumresid5 <- sum(summary(lm(mtcars$mpg ~ mtcars$wt,data = mtcars))$resid^2)
+rho5 <- cor(mtcars$mpg, mtcars$wt)
+
+sumresid6 <- sum(summary(lm(mtcars$mpg ~ mtcars$qsec,data = mtcars))$resid^2)
+rho6 <- cor(mtcars$mpg, mtcars$qsec)
+
+sumresid7 <- sum(summary(lm(mtcars$mpg ~ mtcars$vs,data = mtcars))$resid^2)
+rho7 <- cor(mtcars$mpg, mtcars$vs)
+
+sumresid8 <- sum(summary(lm(mtcars$mpg ~ mtcars$am,data = mtcars))$resid^2)
+rho8 <- cor(mtcars$mpg, mtcars$am)
+
+sumresid9 <- sum(summary(lm(mtcars$mpg ~ mtcars$gear,data = mtcars))$resid^2)
+rho9 <- cor(mtcars$mpg, mtcars$gear)
+
+sumresid10 <- sum(summary(lm(mtcars$mpg ~ mtcars$carb,data = mtcars))$resid^2)
+rho10 <- cor(mtcars$mpg, mtcars$carb)
+
+sumresid <- c(sumresid1,sumresid2,sumresid3,sumresid4,sumresid5,sumresid6,sumresid7,sumresid8,sumresid9,sumresid10)
+names(sumresid) <- c("sumresid_cyl","sumresid_disp","sumresid_hp","sumresid_drat","sumresid_wt","sumresid_qsec","sumresid_vs","sumresid_am","sumresid_gear","sumresid_carb")
+rho <- c(rho1,rho2,rho3,rho4,rho5,rho6,rho7,rho8,rho9,rho10)
+names(rho) <- c("rho_cyl","rho_disp","rho_hp","rho_drat","rho_wt","rho_qsec","rho_vs","rho_am","rho_gear","rho_carb")
+t(data.frame(sumresid, covariance = rho))
+```
+As you can see the five feature have both least residual and largest absolute value of covariance. So I choose the feature "wt" as the original linear model feature. Here is the fitted model's information:
+```{r, echo = FALSE}
+fit5 <- lm(mtcars$mpg ~ mtcars$wt , data = mtcars)
+summary(fit5)$coef
+```
+So, the intercept is 37.285 and the coefficient of "wt" in the fitted model is -5.344. So we can see a negative relation between mpg and weight("wt" stands for weight).
+
+The confidence interval of weight with 95% confidence is
+```{r , echo=FALSE}
+summary(fit5)$coef[1,1] + c(-1, 1) * qt(0.975, df = fit5 $df) * summary(fit5)$coef[1,2]
+```
+So with 95% confidence, we estimate that a 0.001 bl decrease in weight results in  a 33.45 to 41.12
+increase in mpg(mile/gallon).
+
+```{r, echo=FALSE}
+
+choose <- which(abs(rho) >= 0.68)
+mtcars_chose <- mtcars[ ,c(1,9,choose+1)]
+auto_mtcars_chose <- auto_mtcars[ ,c(1,choose+1)]
+manu_mtcars_chose <- manu_mtcars[ ,c(1,choose+1)]
+
+index <- which(sumresid == min(sumresid))# index of resid min
+#plot(mtcars$wt , resid(lm(mtcars$mpg ~ mtcars$wt , data = mtcars_chose)), lwd = 2,main = "Residuals of wt")
+#abline(h = mean(resid(lm(mtcars$mpg ~ mtcars$wt , data = mtcars_chose))), lwd = 2)
+
+sumresid[order(sumresid)]
+chose_rho <- rho[choose]
+chose_rho[order(chose_rho)]
+#########
+sd5 <- sd(summary(lm(mtcars$mpg ~ mtcars$wt,data = mtcars))$resid)
+## 1&5
+fit15 <- lm(mpg ~ wt + cyl, data = mtcars_chose)
+sd.15 <- sd(summary(fit15)$resid)
+sumresid15 <- sum(summary(fit15)$resid^2)
+#[1] 2.483312
+## 2&5
+fit25 <- lm(mpg ~ wt + disp, data = mtcars_chose)
+sd.25 <- sd(summary(fit25)$resid)
+sumresid25 <- sum(summary(fit25)$resid^2)
+#[1] 2.820904
+## 3&5
+fit35 <- lm(mpg ~ wt + hp, data = mtcars_chose)
+sd.35 <- sd(summary(fit35)$resid)
+sumresid35 <- sum(summary(fit35)$resid^2)
+#[1] 2.508359
+## 4&5
+fit45 <- lm(mpg ~ wt + drat, data = mtcars_chose)
+sd.45 <- sd(summary(fit45)$resid)
+sumresid45 <- sum(summary(fit45)$resid^2)
+# 4 can be removed
+#[1] 2.947067
+## 2&1&5
+fit125 <- lm(mpg ~ wt + cyl + disp, data = mtcars_chose)
+sd.125 <- sd(summary(fit125)$resid)
+#[1] 2.465847
+sumresid125 <- sum(summary(fit125)$resid^2)
+## 3&1&5
+fit135 <- lm(mpg ~ wt + cyl + hp, data = mtcars_chose)
+sd.135 <- sd(summary(fit135)$resid)
+sumresid135 <- sum(summary(fit135)$resid^2)
+#[1] 2.38693
+
+## 2&3&1&5
+fit1235 <- lm(mpg ~ wt + cyl + disp + hp, data = mtcars_chose)
+sd.1235 <- sd(summary(fit1235)$resid)
+sumresid1235 <- sum(summary(fit1235)$resid^2)
+#[1] 2.344825
+
+
+## 4&2&3&1&5
+fit12345 <- lm(mpg ~ wt + cyl + disp + hp +drat, data = mtcars_chose)
+sd.12345 <- sd(summary(fit12345)$resid)
+sumresid12345 <- sum(summary(fit12345)$resid^2)
+#[1] 2.323971
+
+## choose 1&3&23&5
+fit13235 <- lm(mpg ~ wt + cyl + hp*disp + hp, data = mtcars_chose)
+sd.13235 <- sd(summary(fit13235)$resid)
+sumresid13235 <- sum(summary(fit13235)$resid^2)
+coe <- summary(fit13235)$coef[,1]
+
+
+```
+
+Multivariate analysis
+=====================
+As you can see, a feature has already been chosen to the linear model, but did the other features have no linear relationship with mpg? Probably not! So I ordered the residuals and chose another four least residuals corresponding to features :"cyl" ,"disp", "hp" and "drat". They were included in this linear model one by one in the increasing order of residuals. The first included feature is "cyl", because including it results in largest amount of decrese of  standard deviation. Feature "hp" is next, then feature "disp" and the multiply of "disp" and "hp". The standard deviations of different number of features included are present in Table1. Here is the **coefficients(interception)** of my final model:
+```{r, echo=FALSE}
+summary(fit13235)$coefficients
+```
+
+ So we can see that the intercept is 44.46 and coefficients of every features are: wt(-3.43), cyl(0.0045), hp(-0.095), disp(-0.042), hp:disp(0.00026). So the linear model is: $mpg = 44.64-3.43wt+0.0045cyl-0.096hp-0.042disp+0.00026hp*disp$.
+
+As the last result show, this is the best model we have made so far from now. And also let's do some confidence analysis. The confidence interval of all the feature in the Table2.
+```{r, echo=FALSE}
+sumcoef <- summary(fit13235)$coefficients
+
+confi_intvals1 <- sumcoef[1,1] + c(-1, 1) * qt(0.975, df = fit13235$df) * sumcoef[1,2]
+confi_intvals2 <- sumcoef[2,1] + c(-1, 1) * qt(0.975, df = fit13235$df) * sumcoef[2,2]
+confi_intvals3 <- sumcoef[3,1] + c(-1, 1) * qt(0.975, df = fit13235$df) * sumcoef[3,2]
+confi_intvals4 <- sumcoef[4,1] + c(-1, 1) * qt(0.975, df = fit13235$df) * sumcoef[4,2]
+confi_intvals5 <- sumcoef[5,1] + c(-1, 1) * qt(0.975, df = fit13235$df) * sumcoef[5,2]
+confi_intvals6 <- sumcoef[6,1] + c(-1, 1) * qt(0.975, df = fit13235$df) * sumcoef[6,2]
+confi_intvals <- data.frame(confi_intvals1,confi_intvals2,confi_intvals3,confi_intvals4,confi_intvals5,confi_intvals6)
+```
+The confi_intvals2 to 
+confi_intvals5 represent confidence intervals of different feature used to model the mpg 
+confi_intval1 represent confidence interval of intercept. From the residuals figure(Figure 3) we can see that the distribution of residuals is like Gaussian distribution which means that our model is good. So I use the model to predict the mpg both of automatic and manual cars and get the results:
+```{r, echo=FALSE}
+yy <- coe[1] + coe[2] * mtcars_chose$wt + coe[3] * mtcars_chose$cyl + coe[4] * mtcars_chose$hp + 
+  coe[5] * mtcars_chose$disp + coe[6] * mtcars_chose$hp*mtcars_chose$disp
+
+car_mean <- c(mean(yy[which(mtcars_chose$am==1)]) , mean(yy[which(mtcars_chose$am==0)])) 
+car_var <- c( var(yy[which(mtcars_chose$am==1)]) , var(yy[which(mtcars_chose$am==0)]))
+data.frame(Mean = car_mean, Variance = car_var,row.names = c("Manual","Automatic"))
+```
+So, it is clear that manual cars have a higher average level of mpg but also a larger variance. If you need a large number of cars, you may choose manual ones but if you just need a singal one or a little number of car, you are suggested to choose automatic ones...
+
+```{r, echo=FALSE}
+## pairs function
+
+panel.hist <- function(x, ...)
+{
+  usr <- par("usr"); on.exit(par(usr))
+  par(usr = c(usr[1:2], 0, 1.5) )
+  h <- hist(x, plot = FALSE)
+  breaks <- h$breaks; nB <- length(breaks)
+  y <- h$counts; y <- y/max(y)
+  rect(breaks[-nB], 0, breaks[-1], y, ...)
+}
+#= "cyan"
+panel.cor <- function(x, y, digits = 2, prefix = "", cex.cor, ...)
+{
+  usr <- par("usr"); on.exit(par(usr))
+  par(usr = c(0, 1, 0, 1))
+  r <- abs(cor(x, y))
+  txt <- format(c(r, 0.123456789), digits = digits)[1]
+  txt <- paste0(prefix, txt)
+  if(missing(cex.cor)) cex.cor <- 0.8/strwidth(txt)
+  text(0.5, 0.5, txt, cex = cex.cor * r+0.8)
+}
+
+panel.cor.scale <- function(x, y, digits=2, prefix="", cex.cor)
+{
+  usr <- par("usr"); on.exit(par(usr))
+  par(usr = c(0, 1, 0, 1))
+  r = (cor(x, y,use="pairwise"))
+  txt <- format(c(r, 0.123456789), digits=digits)[1]
+  txt <- paste(prefix, txt, sep="")
+  if(missing(cex.cor)) cex <- 0.8/strwidth(txt)
+  text(0.5, 0.5, txt, cex = cex * abs(r))
+}
+panel.lm=function(x,y,...)
+{
+    tmp <- lm(y ~ x,na.action = na.omit)
+    abline(tmp, lw = 1, col = "red")
+    points(x,y,...)
+}
+
+```
+
+Appendix
+========
+          * Table1  The standard deviations of different features
+```{r, echo=FALSE}
+sumresid_result <- c(sumresid15,sumresid25,sumresid35,sumresid45,sumresid125,sumresid135,sumresid1235,sumresid12345,sumresid13235)
+
+sd_result <- c(sd.15,sd.25,sd.35,sd.45,sd.125,sd.135, sd.1235, sd.12345, sd.13235)
+t(data.frame(sumresid_result, sd_result))
+```
+
+          * Table2   Confidence Intervals of model lm(mpg ~ wt + cyl + hp + disp + hp:disp)
+```{r, echo=FALSE}
+confi_intvals
+```
+```{r, echo=FALSE}
+pairs(mtcars_chose, lower.panel = panel.lm, upper.panel = panel.smooth, labels = names(mtcars_chose),
+      diag.panel = panel.hist,col = (mtcars_chose$am)+3, main = "Relations Between All Features" )
+```
+
+                         * Figure1    Relation between every two features
+
+From the pairs of figures, we can see the # from the picture we can see that "cyl", "disp", "hp", and "wt" are negatively correlated with "mpg". "drat" is positively correlated with "mpg". We can also notice that blue points which represent manual cars have generally higher mpg than green points which represent automatic cars and we can also see that the "drat" variance distribution is like Gaussion distribution which means that it might have little relationship with others "disp" and "wt" might have linear relation and "hp" and "wt" might have linear relation.
+```{r, echo=FALSE,fig.height=3.7}
+plot(mtcars$wt , resid(lm(mtcars$mpg ~ mtcars$wt , data = mtcars_chose)), lwd = 2,main = "Residuals of Weight", xlab = "Weight of cars", ylab = "Residuals")
+abline(h = mean(resid(lm(mtcars$mpg ~ mtcars$wt , data = mtcars_chose))), lwd = 2)
+```
+
+              * Figure2  The Residuals of linear model between "mpg" and "wt"
+
+```{r, echo=FALSE,fig.height=3.7}
+x <- coe[1] + coe[2] * mtcars_chose$wt + coe[3] * mtcars_chose$cyl + coe[4] * mtcars_chose$hp + 
+  coe[5] * mtcars_chose$disp + coe[6] * mtcars_chose$hp*mtcars_chose$disp
+plot(x, summary(fit13235)$resid,lwd = 2, main = "Residuals of best linear model", xlab = "Linear combination of features", ylab = "Residuals")
+abline(h = mean(summary(fit13235)$resid))
+```
+
+            * Figure3 The Residuals of the linear model mpg ~ wt + cyl + hp + disp + hp:disp
+            
+```{r, echo =FALSE,fig.height=3.8}
+y <- mtcars_chose$mpg
+plot(x,y,xlab = "Predict Value Of mpg", ylab = "True Value Of mpg" ,type = "p", main =" Real vs. Predict value")
+abline(lm(y~x) , lw = 2)
+```
+
+                            * Figure4 The Real and Predict value of mpg
+```{r, echo =FALSE,fig.height=3.8}
+plot(x,y,xlab = "Predict Value Of mpg", ylab = "True Value Of mpg" ,type = "p",col = (mtcars_chose$am)+3, main = "Results")
+```
+
+                                        * Figure5 Results
+
+Blue points represent the manual cars and the green points represents the automatic cars
