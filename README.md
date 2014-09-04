@@ -23,12 +23,9 @@ This repository is mainly used to store projects of Data Science field which I h
   * **[Analysis for Influence of Air Pollutant PM2.5](http://yelangya.github.io/Coursera-Data-Science-Exploratory-Data-Analysis2)**
       
       The overall goal of this project is to explore the National Emissions Inventory database and see what it say about fine particulate matter pollution in the United states over the 10-year period 1999–2008.
-      
+  * **[Personal Activity Analysis](http://yelangya3826850.github.io/RepData_PeerAssessment1)**
 
-
-
-
-
+      This project makes use of data from a personal activity monitoring device. This device collects data at 5 minute        intervals through out the day. The data consists of two months of data from an anonymous individual collected           during the months of October and November, 2012 and include the number of steps taken in 5 minute intervals each        day.
 
 
 
