@@ -15,6 +15,7 @@ This repository is mainly used to store projects of Data Science field which I h
       1. **“Is an automatic or manual transmission better for MPG”**
       2. **"Quantify the MPG difference between automatic and manual transmissions"**
   * **[Getting and Cleaning Data](http://yelangya.github.io/Coursera-Data-Science-Getting-and-Cleaning-Data. )**
+
       This is actually not a project but a previous work for the future analysis. You know that raw data nowadays is          becoming more and more dirty and confusing, so it is important to preprocess these data to get a more clean ones. And       this web page is mainly tracing the work of mine processing data.
   * **[Plotting](http://yelangya.github.io/Coursera-Data-Science-Exploratory-Data-Analysis)**
       
