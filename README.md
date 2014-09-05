@@ -8,7 +8,7 @@ This repository is mainly used to store projects of Data Science field which I h
 
 ### List of the projects that I have ever joined.
 
-  * **[Machine Learning](http://yelangya3826850.github.io/datasciencecoursera/)**:  
+  * **[Machine Learning](http://yelangya3826850.github.io/Projects-in-the-Data-Science-field/)**:  
       
       Using the data from [Human Activity Recognition](http://groupware.les.inf.puc-rio.br/har) to predict the manner in       which they did the exercise. The data are collected from accelerometers on the belt, forearm, arm, and dumbell of       6 participants.
   * **[Cache Time-consuming Computations](http://rpubs.com/yelangya3826850/CacheTime-consumingComputations)**:
